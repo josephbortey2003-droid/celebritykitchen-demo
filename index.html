@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Celebrity Pub &amp; Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Outfit:wght@300;400;500;600&display=swap">
+<style>
+/* Layout (from the Qitchen restaurant template): everything sits in rounded panels on near-black with small gaps.
+   Bento hero (big photo + giant thin caps title + floating pill nav, three stacked link tiles), split menu (sticky photo panel |
+   menu list with chips, ornament headings, dotted price leaders), mirrored catering split with enquiry form, photo bento, visit panel.
+   Single theme: Celebrity's own black + logo gold. */
+:root{
+  --bg:#0B0B0A;
+  --panel:#141412;
+  --panel2:#1B1A17;
+  --line:#2C2A25;
+  --text:#F2ECDF;
+  --soft:#B3AA98;
+  --gold:#F8BA18;      /* sampled from their logo */
+  --gold-ink:#1A1405;
+  --display:"Forum", "Cormorant Garamond", Georgia, serif;
+  --body:"Outfit", "Segoe UI", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--text);font:16px/1.6 var(--body);font-weight:300;margin:0}
+.page{padding:12px max(12px,env(safe-area-inset-right,0px)) 12px max(12px,env(safe-area-inset-left,0px));display:grid;gap:12px;max-width:1500px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:.95;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:10px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative;min-width:0}
+.photo{position:relative}
+.photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,.72) 100%)}
+.photo>*:not(img){position:relative;z-index:2}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(11,11,10,.75);backdrop-filter:blur(10px);border-radius:12px;padding:6px}
+.pill a{text-decoration:none;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:8px 10px;border-radius:8px}
+.pill a:hover{background:var(--panel2)}
+.pill .cta{border:1px solid var(--line)}
+.pill img{height:34px;width:auto;margin-inline:6px 4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:12px;padding:13px 20px;font:500 14px var(--body);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:1px solid var(--line)}
+.btn-gold{background:var(--gold);color:var(--gold-ink);border-color:var(--gold)}
+.btn-line{background:transparent;color:var(--text)}
+.arrow{display:inline-grid;place-items:center;width:34px;height:34px;border:1px solid rgba(255,255,255,.25);border-radius:9px;background:rgba(11,11,10,.6);font-size:15px}
+
+/* hero bento */
+.hero{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1.15fr);gap:12px;min-height:min(86vh,760px)}
+.hero .big{display:flex;flex-direction:column;justify-content:space-between;padding:22px 26px 30px}
+.hero h1{font-size:clamp(56px,10vw,150px)}
+.hero .sub{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin-top:18px;color:#e7dfcf;font-size:15px;letter-spacing:.12em;text-transform:uppercase}
+.hero .sub b{color:var(--gold);font-weight:500}
+.stack{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:12px}
+.tile{display:flex;align-items:flex-end;justify-content:flex-end;gap:12px;padding:16px;text-decoration:none;min-height:180px}
+.tile span{font-size:14px;letter-spacing:.18em;text-transform:uppercase}
+.tile:hover .arrow{background:var(--gold);color:var(--gold-ink);border-color:var(--gold)}
+@media (max-width:900px){.hero{grid-template-columns:1fr;min-height:0}.hero .big{min-height:560px}.stack{grid-template-rows:none;grid-template-columns:repeat(3,minmax(0,1fr))}.tile{min-height:150px;justify-content:center;padding:10px}.tile span{font-size:11px;letter-spacing:.12em}.tile .arrow{display:none}.pill a:not(.cta){display:none}}
+
+/* split (menu / catering) */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:12px}
+.split.flip{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.split .side{min-height:520px;display:flex;align-items:flex-end;padding:28px}
+.split .side h2{font-size:clamp(56px,7vw,110px)}
+@media (min-width:901px){.split .side{position:sticky;top:12px;height:calc(100vh - 24px);max-height:820px}}
+.body{padding:clamp(22px,4vw,48px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chips button{background:transparent;border:1px solid var(--line);color:var(--soft);border-radius:8px;padding:7px 12px;font:400 12px var(--body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.chips button[aria-pressed="true"]{color:var(--gold-ink);background:var(--gold);border-color:var(--gold)}
+.orn{display:flex;align-items:center;gap:16px;justify-content:center;margin:34px 0 22px}
+.orn::before,.orn::after{content:"";height:1px;width:56px;background:linear-gradient(90deg,transparent,var(--soft))}
+.orn::after{transform:scaleX(-1)}
+.orn h3{font-size:32px}
+.dish{padding-block:14px;border-bottom:1px solid var(--line)}
+.dish .top{display:flex;align-items:baseline;gap:10px}
+.dish h4{margin:0;font:400 22px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.dish .lead{flex:1;border-bottom:1px dotted #5c574c;transform:translateY(-5px);min-width:20px}
+.dish .price{font:400 20px var(--display);color:var(--gold);white-space:nowrap}
+.dish p{color:var(--soft);font-size:15px;margin-top:4px;max-width:52ch}
+.tag{font:500 10px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(248,186,24,.45);border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+.order{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.fine{color:var(--soft);font-size:13px;margin-top:12px}
+@media (max-width:900px){.split,.split.flip{grid-template-columns:1fr}.split .side{min-height:360px}.split.flip .side{order:-1}}
+
+/* catering */
+.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:22px}
+.events div{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--panel2)}
+.events h4{margin:0;font:400 22px var(--display);text-transform:uppercase}
+.events p{color:var(--soft);font-size:14px;margin-top:4px}
+form{margin-top:26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+form .full{grid-column:1/-1}
+label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:6px}
+input,select{width:100%;font:400 16px var(--body);color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px}
+@media (max-width:520px){form,.events{grid-template-columns:1fr}}
+
+/* gallery bento */
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:240px;gap:12px}
+.gallery .panel{display:flex;align-items:flex-end;padding:16px}
+.gallery .wide{grid-column:span 2;grid-row:span 2}
+.gallery .tall{grid-row:span 2}
+.gallery .half{grid-column:span 2}
+.gallery span{font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+.gallery .intro{grid-column:span 2;background:var(--panel);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:28px}
+.gallery .intro h2{font-size:clamp(44px,5vw,78px)}
+.gallery .intro p{color:var(--soft);margin-top:12px;max-width:40ch}
+@media (max-width:900px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:200px}.gallery .wide,.gallery .intro{grid-column:span 2}.gallery .wide{grid-row:span 1}}
+
+/* visit */
+.visit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.visit .panel{padding:24px}
+.visit .lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.visit .val{font:400 26px/1.15 var(--display);text-transform:uppercase;margin-top:10px}
+.visit .small{color:var(--soft);font-size:14px;margin-top:8px}
+.visit .quote{grid-column:span 2}
+.visit .quote q{font:400 30px/1.15 var(--display);quotes:"“" "”"}
+@media (max-width:900px){.visit{grid-template-columns:1fr}.visit .quote{grid-column:auto}}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;padding:18px 22px calc(18px + env(safe-area-inset-bottom,0px))}
+footer img{height:44px;width:auto}
+footer span{color:var(--soft);font-size:13px}
+@media (prefers-reduced-motion:no-preference){.hero h1{animation:up .9s cubic-bezier(.2,.7,.2,1) both}@keyframes up{from{transform:translateY(24px);opacity:.01}}}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+<div class="page">
+  <!-- HERO BENTO -->
+  <div class="hero">
+    <section class="panel photo big" aria-label="Celebrity Pub and Kitchen">
+      <img src="img/jollof.webp" alt="A bowl of jollof rice with grilled beef and fresh vegetables" style="object-position:50% 45%">
+      <nav class="pill" aria-label="Main">
+        <img src="img/logo.png" alt="Celebrity Pub &amp; Kitchen">
+        <a href="#menu">Menu</a><a href="#catering">Catering</a><a href="#visit">Visit</a>
+        <a class="cta" href="https://wa.me/233550534458" target="_blank" rel="noopener">Order now</a>
+      </nav>
+      <div>
+        <h1>Celebrity<br>Kitchen</h1>
+        <div class="sub"><span><b>Pub</b> &amp; Kitchen</span><span>Breakfast · Lunch · Dinner</span><span>Ashongman · Kwabenya</span></div>
+      </div>
+    </section>
+    <div class="stack">
+      <a class="panel photo tile" href="#menu"><img src="img/friedrice.webp" alt=""><span>Menu</span><i class="arrow" aria-hidden="true">→</i></a>
+      <a class="panel photo tile" href="#catering"><img src="img/platter.webp" alt=""><span>Catering</span><i class="arrow" aria-hidden="true">→</i></a>
+      <a class="panel photo tile" href="#pub"><img src="img/pub.webp" alt="" style="object-position:50% 30%"><span>The Pub</span><i class="arrow" aria-hidden="true">→</i></a>
+    </div>
+  </div>
+
+  <!-- MENU SPLIT -->
+  <div class="split" id="menu">
+    <div class="panel photo side"><img id="menuImg" src="img/jollof2.webp" alt="Rice with beef, vegetables and fresh pepper"><h2>Menu</h2></div>
+    <section class="panel body" aria-label="Menu">
+      <div class="chips" role="group" aria-label="Menu sections" id="mchips">
+        <button type="button" aria-pressed="true" data-k="local">Local favourites</button>
+        <button type="button" aria-pressed="false" data-k="rice">Rice &amp; noodles</button>
+        <button type="button" aria-pressed="false" data-k="drinks">Smoothies</button>
+      </div>
+      <div id="menuList"></div>
+      <div class="order">
+        <a class="btn btn-gold" href="https://wa.me/233550534458?text=Hello%20Celebrity%20Kitchen%2C%20I%27d%20like%20to%20order%3A%20" target="_blank" rel="noopener">Order on WhatsApp</a>
+        <a class="btn btn-line" href="https://food.bolt.eu/en/137-accra/p/199169-celebrity-pub-and-kitchen/" target="_blank" rel="noopener">Order on Bolt Food</a>
+      </div>
+      <p class="fine">Prices from our Bolt Food menu. Call or WhatsApp for today's specials and breakfast packs.</p>
+    </section>
+  </div>
+
+  <!-- CATERING SPLIT (mirrored) -->
+  <div class="split flip" id="catering">
+    <section class="panel body" aria-label="Event catering">
+      <div class="orn" style="margin-top:0"><h3>Event Catering</h3></div>
+      <p style="color:var(--soft);text-align:center;max-width:48ch;margin-inline:auto">From a family celebration to a full wedding reception, we cook, pack and deliver, so your guests eat well and you enjoy the day.</p>
+      <div class="events">
+        <div><h4>Weddings</h4><p>Buffets and packed meals for the reception.</p></div>
+        <div><h4>Funerals</h4><p>Large-quantity local dishes for one-week and final rites.</p></div>
+        <div><h4>Parties</h4><p>Birthdays, naming ceremonies, end-of-year get-togethers.</p></div>
+        <div><h4>Office &amp; packs</h4><p>Breakfast packs, lunch boxes and weekly meal prep.</p></div>
+      </div>
+      <form id="cform" novalidate>
+        <div><label for="ev">Event</label><select id="ev"><option>Wedding</option><option>Funeral</option><option>Party</option><option>Office lunch</option><option>Breakfast packs</option><option>Other</option></select></div>
+        <div><label for="dt">Date</label><input id="dt" type="date"></div>
+        <div><label for="gs">Number of guests</label><input id="gs" type="number" min="5" step="5" value="50" inputmode="numeric"></div>
+        <div><label for="loc">Area</label><input id="loc" placeholder="e.g. Adenta"></div>
+        <div class="full"><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="e.g. Akosua Mensah"></div>
+        <div class="full"><a class="btn btn-gold" id="csend" style="width:100%" href="#" target="_blank" rel="noopener">Request a catering quote</a></div>
+      </form>
+    </section>
+    <div class="panel photo side"><img src="img/mealprep.webp" alt="Packed meal boxes with rice, eggs and vegetables ready for delivery"><h2>Catering</h2></div>
+  </div>
+
+  <!-- PUB / GALLERY BENTO -->
+  <div class="gallery" id="pub">
+    <div class="intro panel"><h2>The Pub</h2><p>Cold drinks, fresh smoothies and good company after work. Pull up a chair under the lights.</p></div>
+    <div class="panel photo tall"><img src="img/pub.webp" alt="Guests relaxing in the pub under purple lights"><span>Evenings</span></div>
+    <div class="panel photo tall"><img src="img/trays.webp" alt="Party trays of jollof and fried rice"><span>Party trays</span></div>
+    <div class="panel photo"><img src="img/mojito.webp" alt="A mint and lime drink over crushed ice"><span>Mocktails</span></div>
+    <div class="panel photo"><img src="img/lamp.webp" alt="A woven lamp glowing in the dining room"><span>The room</span></div>
+    <div class="panel photo half"><img src="img/breakfast.webp" alt="Oats topped with banana, berries and grapes"><span>Breakfast</span></div>
+    <div class="panel photo half"><img src="img/banku.webp" alt="Banku with fresh pepper and salad"><span>Banku</span></div>
+  </div>
+
+  <!-- VISIT -->
+  <div class="visit" id="visit">
+    <div class="panel"><div class="lbl">Find us</div><div class="val">Ashongman Estate</div><p class="small">GE-185-0258, near Melcom, Kwabenya, Accra</p><p style="margin-top:14px"><a class="btn btn-line" href="https://maps.app.goo.gl/6fzB4R6uFKcXSuNB7" target="_blank" rel="noopener">Directions</a></p></div>
+    <div class="panel"><div class="lbl">Call or WhatsApp</div><div class="val">055 053 4458</div><p class="small">055 543 8254 · 054 700 9392</p><p style="margin-top:14px"><a class="btn btn-gold" href="https://wa.me/233550534458" target="_blank" rel="noopener">WhatsApp</a></p></div>
+    <div class="panel quote"><div class="lbl">★ 4.5 from 182 Bolt Food ratings · 4.7 on Google</div><p style="margin-top:14px"><q>It's the best you can find in Ghana. The food is good and the place is nice.</q></p><p class="small">Evelyn K. M., Google review · Women-owned business</p></div>
+  </div>
+
+  <footer class="panel"><img src="img/logo.png" alt="Celebrity Pub &amp; Kitchen"><span>Open until 10pm · Dine-in · Takeaway · Delivery · @celebrity_pub_and_kitchen</span></footer>
+</div>
+
+<script>
+(function(){
+const MENU={
+ local:{title:'Local Favourites',img:['jollof2.webp','Rice with beef, vegetables and fresh pepper'],items:[
+  ['Afima Special Gob3','Our house special, named after our CEO. Beans and plantain the Celebrity way.',60,'Popular'],
+  ['Zongo Rice','Home-made rice with stew. Very delicious.',80,'Spicy'],
+  ['Banku with Okro','Soft banku with rich okro soup.',90,''],
+  ['Angwamo','Ghanaian oil rice, cooked with onions and pepper.',90,'']]},
+ rice:{title:'Rice & Noodles',img:['friedrice.webp','Chicken fried rice with carrots and peas'],items:[
+  ['Chicken Fried Rice','Savoury fried rice cooked with seasoned chicken pieces and aromatic spices.',90,''],
+  ['Fried Rice with Prawns','Rice stir-fried with fresh seafood.',100,'Popular'],
+  ['Chicken Noodles','Stir-fried noodles with chicken and vegetables.',90,''],
+  ['Indomie','Instant noodles stir-fried with vegetables and savoury seasoning.',70,''],
+  ['Chicken Wrap','Seasoned chicken and fresh vegetables, wrapped.',90,'']]},
+ drinks:{title:'Smoothies',img:['mojito.webp','A chilled drink over crushed ice'],items:[
+  ['Mango Smoothie','Chilled blend of seasonal Ghanaian mangoes.',65,''],
+  ['Strawberry Smoothie','Thick, cold and fresh.',60,'']]}
+};
+const list=document.getElementById('menuList'), img=document.getElementById('menuImg');
+function show(k){
+  const m=MENU[k];
+  list.innerHTML=`<div class="orn"><h3>${m.title}</h3></div>`+m.items.map(i=>`<div class="dish"><div class="top"><h4>${i[0]}${i[3]?`<span class="tag">${i[3]}</span>`:''}</h4><span class="lead" aria-hidden="true"></span><span class="price">GH₵ ${i[2]}</span></div><p>${i[1]}</p></div>`).join('');
+  img.src='img/'+m.img[0]; img.alt=m.img[1];
+}
+document.querySelectorAll('#mchips button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#mchips button').forEach(x=>x.setAttribute('aria-pressed',x===b));show(b.dataset.k);}));
+show('local');
+// catering enquiry -> WhatsApp
+const $=id=>document.getElementById(id);
+const d=new Date(Date.now()+14*864e5); $('dt').value=d.toISOString().slice(0,10);
+function upd(){
+  const dt=$('dt').value?new Date($('dt').value+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'}):'not decided';
+  let m=`Hello Celebrity Kitchen, I'd like a catering quote.\nEvent: ${$('ev').value}\nDate: ${dt}\nGuests: about ${$('gs').value||'?'}\nArea: ${$('loc').value.trim()||'?'}`;
+  if($('nm').value.trim()) m+=`\nName: ${$('nm').value.trim()}`;
+  $('csend').href='https://wa.me/233550534458?text='+encodeURIComponent(m);
+}
+['ev','dt','gs','loc','nm'].forEach(id=>$(id).addEventListener('input',upd)); upd();
+$('cform').addEventListener('submit',e=>e.preventDefault());
+})();
+</script>
+
+</body>
+</html>
